@@ -32,4 +32,11 @@ public class Player : MonoBehaviour
         waypointIndex++;
         path = target.waypoints[waypointIndex];
     }
+
+    private void OnTriggerStay(Collider other) {
+        if(other.gameObject.tag == "Ladder"){
+            
+        }
+    }
+    
 }
