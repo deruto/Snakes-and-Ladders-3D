@@ -5,7 +5,8 @@ using UnityEngine;
 public class MainRoad : MonoBehaviour
 {
     public Transform[] waypoints;
-    void Awake() {
+    void Awake() 
+    {
         waypoints = new Transform[transform.childCount];
 
         for (int i = 0; i < waypoints.Length; i++)
