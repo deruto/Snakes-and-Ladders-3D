@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform path;
     [SerializeField] float speed;
     [SerializeField] float offsetDistance = 0.2f;
+    
     Vector3 direction;
     bool ladderFound = false;
     // Start is called before the first frame update
