@@ -8,18 +8,25 @@ public class Snake : MonoBehaviour
     public GameObject snakeMouth;
     public GameObject snakeEnd;
     [SerializeField] bool playerEaten;
-    [SerializeField] Transform playerObject;
+    public bool teleportPlayer;
+    [SerializeField] CallPlayer callPlayer;
+
+    [SerializeField] GameObject playerCloneHolder;
 
     void Update() 
     {
-        
+        FindPlayerClone();
+    }
+
+    private void FindPlayerClone()
+    {
+        playerCloneHolder = FindObjectOfType<CallPlayer>().playerClone;
     }
 
     void OnTriggerEnter(Collider other) 
     {
         if(other.gameObject.tag == "Player"){
             playerEaten = true;
-            Destroy(playerObject);
             DigestPlayer();
         }
     }
@@ -27,8 +34,10 @@ public class Snake : MonoBehaviour
     private void DigestPlayer()
     {
         if(playerEaten){
-            Instantiate(playerObject.gameObject, snakeEnd.transform.position, Quaternion.identity);
-            playerEaten = false;
+            Destroy(playerCloneHolder);
+            teleportPlayer = true;
+            callPlayer.playerSpawned = false;
         }
+        
     }
 }
