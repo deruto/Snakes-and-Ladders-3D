@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] int diceValue;
     [SerializeField] int currentPosition;
     [SerializeField] bool turnEnd = false;
+    [SerializeField] float resetSpeed;
     Vector3 direction;
     bool ladderFound = false;
     bool gameStarted = false;
@@ -28,13 +29,13 @@ public class Player : MonoBehaviour
         ladders = FindObjectOfType<Ladder>();
         diceNumber = FindObjectOfType<Dice>();
         path = target.waypoints[0];
+        resetSpeed = speed;
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        diceValue = diceNumber.RollTheDice();
         targetWaypointIndex = currentPosition + diceValue;
         if(diceValue == 6 || diceValue == 1 && gameStarted == false){
             ProcessMovement();
@@ -43,23 +44,31 @@ public class Player : MonoBehaviour
         else if(gameStarted == true){
             ProcessMovement();
         }
+
+        if(Input.GetKeyDown(KeyCode.S)){
+            speed = resetSpeed;
+            turnEnd = false;
+        }
     }
 
     private void ProcessMovement()
     {
-        if(diceNumber.isDiceRolled){
-            destination = target.waypoints[targetWaypointIndex];
-        }
-        direction = path.position - transform.position;
-        transform.Translate(direction.normalized * speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, path.position) <= offsetDistance)
-        {
-            GetNextWaypoint();
-        }
-        if(Vector3.Distance(transform.position, destination.position) <= offsetDistance){
-            speed = 0;
-            currentPosition = targetWaypointIndex;
-            turnEnd = true;
+        if(!turnEnd){
+            if(diceNumber.isDiceRolled){
+                diceValue = diceNumber.RollTheDice();
+                destination = target.waypoints[targetWaypointIndex];
+            }
+            direction = path.position - transform.position;
+            transform.Translate(direction.normalized * speed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, path.position) <= offsetDistance)
+            {
+                GetNextWaypoint();
+            }
+            if(Vector3.Distance(transform.position, destination.position) <= offsetDistance){
+                speed = 0;
+                currentPosition = targetWaypointIndex;
+                turnEnd = true;
+            }
         }
     }
 

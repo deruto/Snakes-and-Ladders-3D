@@ -23,7 +23,6 @@ public class Dice : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rolledValue = Random.Range(1, 7);
-            print(rolledValue);
             isDiceRolled = true;
         }
         return rolledValue;
