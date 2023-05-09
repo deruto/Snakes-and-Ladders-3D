@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        diceValue = diceNumber.RollTheDice();
         targetWaypointIndex = currentPosition + diceValue;
         if(diceValue == 6 || diceValue == 1 && gameStarted == false){
             ProcessMovement();
@@ -53,8 +54,8 @@ public class Player : MonoBehaviour
 
     private void ProcessMovement()
     {
+        if(!turnEnd){
             if(diceNumber.isDiceRolled){
-                diceValue = diceNumber.RollTheDice();
                 destination = target.waypoints[targetWaypointIndex];
             }
             direction = path.position - transform.position;
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
                 speed = 0;
                 currentPosition = targetWaypointIndex;
                 turnEnd = true;
+            }
         }
     }
 
