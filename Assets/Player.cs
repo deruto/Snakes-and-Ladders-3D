@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
 
     private void ProcessMovement()
     {
-        if(!turnEnd){
             if(diceNumber.isDiceRolled){
                 diceValue = diceNumber.RollTheDice();
                 destination = target.waypoints[targetWaypointIndex];
@@ -68,7 +67,6 @@ public class Player : MonoBehaviour
                 speed = 0;
                 currentPosition = targetWaypointIndex;
                 turnEnd = true;
-            }
         }
     }
 
