@@ -15,7 +15,9 @@ public class Dice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RollTheDice();
+        if(!isDiceRolled){
+            RollTheDice();
+        }
     }
 
     public int RollTheDice()

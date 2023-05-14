@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] int currentPosition;
     [SerializeField] bool turnEnd = false;
     [SerializeField] float resetSpeed;
+    [SerializeField] bool destinationReached = false;
     Vector3 direction;
     bool ladderFound = false;
     bool gameStarted = false;
@@ -38,37 +39,77 @@ public class Player : MonoBehaviour
     {
         diceValue = diceNumber.RollTheDice();
         targetWaypointIndex = currentPosition + diceValue;
-        if(diceValue == 6 || diceValue == 1 && gameStarted == false){
-            ProcessMovement();
-            gameStarted = true;
-        }
-        else if(gameStarted == true){
-            ProcessMovement();
-        }
+        StartTurn();
+        ResetValues();
+    }
 
-        if(Input.GetKeyDown(KeyCode.S)){
+    private void ResetValues()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
             speed = resetSpeed;
             turnEnd = false;
         }
     }
 
+    private void StartTurn()
+    {
+        if (diceValue == 6 || diceValue == 1 && gameStarted == false)
+        {
+            ProcessMovement();
+            gameStarted = true;
+        }
+        else if (gameStarted == true && diceNumber.isDiceRolled)
+        {
+            ProcessMovement();
+            
+        }
+        destinationReached = false;
+    }
+
     private void ProcessMovement()
     {
-        if(!turnEnd){
-            if(diceNumber.isDiceRolled){
-                destination = target.waypoints[targetWaypointIndex];
-            }
+        if(!turnEnd)
+        {
+            ProcessTargetNumber();
             direction = path.position - transform.position;
             transform.Translate(direction.normalized * speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, path.position) <= offsetDistance)
             {
                 GetNextWaypoint();
             }
-            if(Vector3.Distance(transform.position, destination.position) <= offsetDistance){
-                speed = 0;
-                currentPosition = targetWaypointIndex;
-                turnEnd = true;
-            }
+            ProcessDestination();
+        }
+    }
+
+    private void ProcessTargetNumber()
+    {
+        if (diceNumber.isDiceRolled)
+        {
+            destination = target.waypoints[targetWaypointIndex];
+        }
+    }
+
+    private void ProcessDestination()
+    {
+        if (Vector3.Distance(transform.position, destination.position) <= offsetDistance && !destinationReached)
+        {
+            ProcessTurnEnd();
+        }
+    }
+
+    private void ProcessTurnEnd()
+    {
+        currentPosition = targetWaypointIndex;
+        turnEnd = true;
+        destinationReached = true;
+        if (turnEnd)
+        {
+            diceNumber.isDiceRolled = false;
+        }
+        if(destinationReached){
+            targetWaypointIndex = 0;
+            print(targetWaypointIndex);
         }
     }
 
