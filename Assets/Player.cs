@@ -37,10 +37,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        diceValue = diceNumber.RollTheDice();
-        targetWaypointIndex = currentPosition + diceValue;
-        StartTurn();
         ResetValues();
+        diceValue = diceNumber.RollTheDice();
+        if(!turnEnd){
+            targetWaypointIndex = currentPosition + diceValue;
+        }
+        StartTurn();
     }
 
     private void ResetValues()
@@ -100,7 +102,7 @@ public class Player : MonoBehaviour
 
     private void ProcessTurnEnd()
     {
-        currentPosition = targetWaypointIndex;
+        currentPosition = waypointIndex;
         turnEnd = true;
         destinationReached = true;
         if (turnEnd)
