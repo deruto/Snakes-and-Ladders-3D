@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] MainRoad path;
+    [SerializeField] int currentPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,9 @@ public class Movement : MonoBehaviour
         foreach (Transform waypoint in path.waypoints)
         {
             transform.position = waypoint.position;
-            yield return new WaitForSeconds(1f);
+            currentPosition++;
+            print(currentPosition);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }
