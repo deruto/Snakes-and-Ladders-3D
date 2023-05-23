@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     {
         StartCoroutine(FollowPath());
     }
-
     // Update is called once per frame
     IEnumerator FollowPath(){
         foreach (Transform waypoint in path.waypoints)
