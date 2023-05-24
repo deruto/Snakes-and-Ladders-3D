@@ -6,19 +6,17 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] MainRoad path;
     [SerializeField] int currentPosition;
+    [SerializeField] Vector3 endPosition;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(FollowPath());
+        endPosition = new Vector3(0, 0, 2);
     }
-    // Update is called once per frame
-    IEnumerator FollowPath(){
-        foreach (Transform waypoint in path.waypoints)
-        {
-            transform.position = waypoint.position;
-            currentPosition++;
-            print(currentPosition);
-            yield return new WaitForSeconds(0.5f);
+
+    void Update(){
+        transform.Translate(0,0,1 * Time.deltaTime);
+        if(transform.position.z >= endPosition.z){
+            transform.position = endPosition;
         }
     }
 }
