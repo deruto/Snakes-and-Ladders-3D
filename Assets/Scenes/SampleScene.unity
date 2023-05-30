@@ -833,7 +833,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   path: {fileID: 1043706577}
   currentPosition: 0
-  endPosition: {x: 0, y: 0, z: 2}
 --- !u!4 &1116938890
 Transform:
   m_ObjectHideFlags: 0
@@ -879,6 +878,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dice: {fileID: 976930732}
+  player: {fileID: 1116938889}
+  waypoint: {fileID: 1043706577}
+  p1CurrentIndex: 0
 --- !u!4 &1209972156
 Transform:
   m_ObjectHideFlags: 0
